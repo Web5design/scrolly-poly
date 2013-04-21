@@ -68,13 +68,53 @@ ScrollyPoly.prototype.options = {
 };
 
 ScrollyPoly.prototype._create = function() {
+
+  this.pageIndex = 1;
+
   if ( this.options.scroller ) {
     eventie.bind( this.options.scroller, 'scroll', this );
   }
 };
 
 ScrollyPoly.prototype.ajaxNextPage = function() {
-  console.log('ajax next page');
+  console.log('AJAX TIME');
+  // don't trigger if already ajaxing
+  if ( this.isAjaxing ) {
+    console.log('already ajaxing');
+    return;
+  }
+  var request = new XMLHttpRequest();
+  var pageIndex = this.pageIndex + 1;
+  var url = this.options.pagePath[0] + pageIndex + this.options.pagePath[1];
+  var _this = this;
+  request.open( 'GET', url, true );
+  request.onreadystatechange = function() {
+    if ( request.readyState !== 4 ) {
+      return;
+    }
+    if ( request.status === 200 ) {
+      _this.gotPage( request.responseText );
+    }
+
+    // console.log( request.responseText );
+    delete _this.isAjaxing;
+  };
+  request.send();
+  this.isAjaxing = true;
+};
+
+ScrollyPoly.prototype.gotPage = function( responseText ) {
+  var div = document.createElement('div');
+  div.innerHTML = responseText;
+  var items = div.querySelectorAll( this.options.itemSelector );
+  var fragment = document.createDocumentFragment();
+  for ( var i=0, len = items.length; i < len; i++ ) {
+    var item = items[i];
+    fragment.appendChild( item );
+  }
+  this.element.appendChild( fragment );
+  this.pageIndex++;
+  // console.log( items );
 };
 
 // -------------------------- events -------------------------- //
