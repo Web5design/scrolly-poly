@@ -77,10 +77,10 @@ ScrollyPoly.prototype._create = function() {
 };
 
 ScrollyPoly.prototype.ajaxNextPage = function() {
-  console.log('AJAX TIME');
+  // console.log('AJAX TIME');
   // don't trigger if already ajaxing
   if ( this.isAjaxing ) {
-    console.log('already ajaxing');
+    // console.log('already ajaxing');
     return;
   }
   var request = new XMLHttpRequest();
@@ -158,7 +158,7 @@ ScrollyPoly.prototype.scroll = function() {
 
   var bodyHeight = getSize( document.body ).height;
 
-  console.log( scrollY + windowHeight, bodyHeight - this.options.triggerHeight );
+  // console.log( scrollY + windowHeight, bodyHeight - this.options.triggerHeight );
 
   if ( scrollY + windowHeight >= bodyHeight - this.options.triggerHeight ) {
     this.ajaxNextPage();

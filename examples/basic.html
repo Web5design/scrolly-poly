@@ -11,6 +11,12 @@
     max-width: 540px;
     font-size: 24px;
   }
+
+  .post {
+    border: 1px solid #CCC;
+    padding: 10px;
+    margin-bottom: 1.0em;
+  }
   </style>
 
 </head>
@@ -53,9 +59,10 @@
 <script>
 docReady( function() {
   var container = document.querySelector('#container');
+  console.log(  );
   new ScrollyPoly( container, {
     itemSelector: '.post',
-    pagePath: [ '/scrolly-poly/examples/pages/', '.html' ]
+    pagePath: [ location.pathname.replace( 'basic.html', '' ) + 'pages/', '.html' ]
   });
 });
 </script>
